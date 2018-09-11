@@ -33,20 +33,5 @@ pipeline {
                 }
             }  
         }
-        stage("Reference Application Code Analysis"){
-            steps{
-                echo 'This job runs code quality analysis for Java reference application using SonarQube.'
-                echo "Checking the Build number $BUILD_NUMBER"
-                script{
-                    // requires SonarQube Scanner 2.8+
-                    scannerHome = tool 'ADOP SonarScanner'
-                    withSonarQubeEnv('ADOP Sonar') {
-                        echo "SONAR_PROJECT_NAME $env.SONAR_PROJECT_NAME"
-                        echo "SONAR_PROJECT_KEY $env.SONAR_PROJECT_KEY"
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectName=\"${env.SONAR_PROJECT_NAME}\" -Dsonar.projectKey=\"${env.SONAR_PROJECT_KEY}\" -Dsonar.projectVersion=1.0.$BUILD_NUMBER -Dsonar.sources=src/main/java -Dsonar.language=java -Dsonar.sourceEncoding=UTF-8 -Dsonar.scm.enabled=false"
-                    }
-                }
-            }
-        }
     }
 }
